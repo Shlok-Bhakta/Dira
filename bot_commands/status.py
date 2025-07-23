@@ -9,6 +9,7 @@ class StatusView(discord.ui.View):
         self.add_item(GithubButton)
 
 def new_embed(client: discord.Client):
+    commands_list = [f"</{name}:{command.id}>" for name, command in client.COMMANDS.items()]
     return discord.Embed.from_dict({
         "title": "Status",
         "description": "",
@@ -24,6 +25,7 @@ def new_embed(client: discord.Client):
         "fields": [
             {"name": "Latency", "value": f"{client.latency * 1000:.1f} ms", "inline": False},
             {"name": "Online Since", "value": f"<t:{client.start_time}:R>", "inline": False},
+            {"name": f"{len(client.COMMANDS)} Commands", "value": "\n".join(commands_list), "inline": True},
         ],
     })
 
