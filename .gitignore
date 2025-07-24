@@ -1,16 +1,9 @@
 .env
 .DS_Store
-.venv
+/.venv
 __pycache__
 *.pyc
 *.pyo
 *.pyd
-
-# Why not
-node_modules
-
-# VSCode
 .vscode
-
-# JetBrains
-.idea
+error_log.txt
