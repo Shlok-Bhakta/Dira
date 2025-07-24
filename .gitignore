@@ -5,4 +5,5 @@ __pycache__
 *.pyc
 *.pyo
 *.pyd
+.vscode
 error_log.txt
