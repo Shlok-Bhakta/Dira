@@ -1,4 +1,5 @@
 import discord
+from custom_classes.backlogModal import prefilledBacklogModal
 
 async def handle_raw_reaction_add(bot: discord.Client, payload: discord.RawReactionActionEvent, channels: dict):
     if payload.user_id == bot.user.id:
@@ -15,14 +16,17 @@ async def handle_raw_reaction_add(bot: discord.Client, payload: discord.RawReact
         '📝': 'doing',
         '✅': 'done',
         '⏳': 'todo',
+        '🎒': 'backlog',
         }
     
     destination_channel = channels.get(emoji_lookup.get(payload.emoji.name))
+    
     if not destination_channel:
-        return
-    destination_channel = bot.get_channel(destination_channel)
-    await message.delete()
-    new_message = await destination_channel.send(embed=message.embeds[0])
-    for emoji in emoji_lookup.keys():
-        if emoji != payload.emoji.name:
-            await new_message.add_reaction(emoji)
+        pass
+    else:
+        destination_channel = bot.get_channel(destination_channel)
+        await message.delete()
+        new_message = await destination_channel.send(embed=message.embeds[0])
+        for emoji in emoji_lookup.keys():
+            if emoji != payload.emoji.name:
+                await new_message.add_reaction(emoji)

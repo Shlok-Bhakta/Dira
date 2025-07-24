@@ -39,7 +39,6 @@ class MyClient(discord.Client):
         for command in COMMANDS:
             self.tree.add_command(command)
             print(f"Command {command.name} initialized.")
-        await self.tree.sync(guild=None)  # Sync commands globally
     
     async def on_raw_reaction_add(self, payload):
         await handle_raw_reaction_add(self, payload, self.channels)
