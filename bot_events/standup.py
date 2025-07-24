@@ -2,6 +2,7 @@
 This boi is going to take audio from discord channel and summarize it
 """
 
+import datetime
 import discord
 from pprint import pprint
 import requests
@@ -92,11 +93,39 @@ async def handle_on_message(bot: discord.Client, message: discord.Message):
         summary = result["candidates"][0]["content"]["parts"][0]["text"]
         
         # Send the summary back to Discord
-        await message.channel.send(f"📝 **Audio Summary:**\n{summary}")
+        embed = discord.Embed.from_dict({
+            "title": f"{message.author.display_name} Standup Summary",
+            "description": f"{summary}",
+            "color": 0x82efc2,
+            "timestamp": datetime.datetime.now().isoformat(),
+            "author": {
+                "name": message.author.display_name,
+                "icon_url": message.author.display_avatar.url,
+            },
+            "thumbnail": {
+                "url": message.author.display_avatar.url,
+            },
+        })
+        await message.reply(embed=embed)
         print(f"Summary generated: {summary}")
     else:
         print(f"Error from Gemini API: {response.status_code} - {response.text}")
-        await message.channel.send("❌ Failed to summarize audio. Please try again.")
+        # Send the summary back to Discord
+        embed = discord.Embed.from_dict({
+            "title": f"{message.author.display_name} Standup Summary FAILED",
+            "description": f"{summary}",
+            "color": 0x500000,
+            "timestamp": datetime.datetime.now().isoformat(),
+            "author": {
+                "name": message.author.display_name,
+                "icon_url": message.author.display_avatar.url,
+            },
+            "thumbnail": {
+                "url": message.author.display_avatar.url,
+            },
+        })
+
+        await message.reply(embed=embed)
 
 
     print(f"Attachments: {message.attachments}")
