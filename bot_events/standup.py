@@ -4,7 +4,6 @@ This boi is going to take audio from discord channel and summarize it
 
 import datetime
 import discord
-from pprint import pprint
 import requests
 import base64
 import dotenv
