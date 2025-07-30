@@ -20,7 +20,7 @@ async def handle_on_message(bot: discord.Client, message: discord.Message):
         return
     
     # pull the audio file from the message attachment.url
-    audio_file = requests.get(message.attachments[0].url)
+    audio_file = requests.get(message.attachments[0].url, timeout=10)
 
     # Convert audio bytes to base64
     audio_base64 = base64.b64encode(audio_file.content).decode('utf-8')
@@ -53,7 +53,7 @@ async def handle_on_message(bot: discord.Client, message: discord.Message):
                         the output should be as follows:
 
                         ## Standup Summary
-                        This is a summart of the standup meeting. keep it as short as possible while still conveying the main points.
+                        This is a summary of the standup meeting. keep it as short as possible while still conveying the main points.
 
                         ## Key Points
                         - point 1
@@ -84,7 +84,8 @@ async def handle_on_message(bot: discord.Client, message: discord.Message):
     response = requests.post(
         f"{gemini_url}?key={os.getenv('GEMINI_API')}",
         headers=headers,
-        json=payload
+        json=payload,
+        timeout=10
     )
     
     if response.status_code == 200:
