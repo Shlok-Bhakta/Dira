@@ -6,6 +6,7 @@ import datetime
 import os
 from bot_commands import COMMANDS
 from bot_events.reactions import handle_raw_reaction_add
+from bot_events.standup import handle_on_message
 
 
 class MyClient(discord.Client):
@@ -14,6 +15,7 @@ class MyClient(discord.Client):
         self.start_time = int(time.time())
         self.tree = discord.app_commands.CommandTree(self)
         self.channels = {
+            "stand-up": 1397075134925246495,
             "backlog": 1397406490083594403,
             "todo": 1397406522929184841,
             "doing": 1397406542000685166,
@@ -43,3 +45,5 @@ class MyClient(discord.Client):
     async def on_raw_reaction_add(self, payload):
         await handle_raw_reaction_add(self, payload, self.channels)
 
+    async def on_message(self, message):
+        await handle_on_message(self, message)
