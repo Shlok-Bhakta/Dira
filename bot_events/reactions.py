@@ -13,10 +13,10 @@ async def handle_raw_reaction_add(bot: discord.Client, payload: discord.RawReact
         return
     
     emoji_lookup = {
-        '📝': 'doing',
-        '✅': 'done',
         '⏳': 'todo',
         '🎒': 'backlog',
+        '📝': 'doing',
+        '✅': 'done',
         }
     
     destination_channel = channels.get(emoji_lookup.get(payload.emoji.name))
